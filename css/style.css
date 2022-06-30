@@ -18,6 +18,8 @@
     --bg-hero-footer: #2F303A;
     --bg-hero: #C4C4C4;
     --hero-gradient: rgba(47,48,58,0.4);
+    --bg-works: rgba(47, 48, 58, 0.8);
+    --bg-backdrop: rgba(0, 0, 0, 0.2);
 
     --social-links: #AFB1B8;
     --bg-footer-icon: rgba(255, 255, 255, 0.1);
@@ -101,6 +103,15 @@ img {
     padding-bottom: 94px;
 }
 
+/* Header and Footer ПЕРЕХОДЫ ссылок */
+
+.nav-list .link,
+.contacts .contacts-link,
+.adress-item,
+.adress-city {
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 
 /* LOGO */
 .header .logo,
@@ -174,8 +185,34 @@ img {
 }
 
 .nav-list .link.current {
+    position: relative;
     color: var(--brand-color);
 }
+
+
+.header .link.current::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--brand-color);
+
+    animation: changeSize 400ms linear 200ms backwards;
+}
+
+@keyframes changeSize {
+    0% {
+        transform: scaleX(0);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}
+
 
 .header .contacts {
     margin-left: auto;
@@ -260,12 +297,93 @@ img {
     font-size: 16px;
     line-height: 1.88;
     letter-spacing: 0.06em;
+
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .button:hover,
 .button:focus {
     background-color: var(--button-hover);
 }
+
+.hero .backdrop {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-backdrop);
+
+    opacity: 1;
+    transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.backdrop.is-hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.backdrop.is-hidden .modal {
+    transform: scale(1.1) translate(-50%, -50%);
+}
+
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: scale(1) translate(-50%, -50%);
+    min-width: 528px;
+    min-height: 521px;
+    z-index: 9999;
+    background-color: var(--main-bg);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px;
+    border: none;
+    
+    
+    background-color: var(--main-bg);
+    cursor: pointer;
+
+    
+}
+
+.hero .btn-close-box {
+    padding: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    background-color: var(--main-bg);
+    transition: background-color 2250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-close:hover .btn-close-box,
+.btn-close:focus .btn-close-box {
+    background-color: var(--bg-team-filters);
+}
+
+.btn-close:hover .icon-close,
+.btn-close:focus .icon-close{
+    fill: var(--brand-color);
+
+}
+
+.icon-close {
+    display: block;
+    fill: var(--black-logo);
+    transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 
 /* Skills */
 
@@ -339,9 +457,31 @@ img {
 }
 
 .works-item {
+    position: relative;
     flex-basis: calc(100%/var(--qty-cards) - var(--cards-gap));
     margin-right: var(--cards-gap);
     margin-bottom: var(--cards-gap);
+}
+
+.works-overlay {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+
+    background-color: var(--bg-works);
+}
+
+            /* Works + Footer FONT */
+.font-white {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.17;
+    text-transform: uppercase;
+    color: var(--text-white);
 }
 
 
@@ -433,6 +573,15 @@ img {
     margin-left: 10px;
 }
 
+.team .icons {
+    border-radius: 50%;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer .icons {
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .team .icons:hover,
 .team .icons:focus,
 .footer .icons:hover,
@@ -462,10 +611,6 @@ img {
     color: var(--social-links);
 }
 
-.footer .icons {
-    color: var(--text-white);
-}
-
 
 
 /* CLIENTS */
@@ -490,6 +635,8 @@ img {
     color: var(--social-links);
     border: 1px solid var(--social-links);
     border-radius: 4px;
+
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .clients-link:hover,
@@ -605,17 +752,12 @@ img {
 .footer-title {
     display: block;
     margin-bottom: 20px;
-
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 1.17;
-    text-transform: uppercase;
-    color: var(--text-white);
 }
 
 .footer .icons {
     border-radius: 50%;
     background-color: var(--bg-footer-icon);
+    color: var(--text-white);
     fill: var(--text-white);
 }
 
@@ -666,6 +808,14 @@ img {
     box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.08), 0px 2px 2px rgba(0, 0, 0, 0.12);
 }
 
+.button-portfolio:hover,
+.button-portfolio:focus,
+.button-portfolio:hover,
+.button-portfolio:focus {
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1), background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
  /* Projects */
 
 .projects .list-cards {
@@ -689,13 +839,42 @@ img {
     border-top:  none;
 }
 
+.projects-thumb {
+    position: relative;
+    overflow: hidden;
+    pointer-events: none;
+}
+
 .projects-link {
     display: block;
     text-decoration: none;
+    transition: box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .projects-link:hover {
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06), 1px 4px 6px rgba(0, 0, 0, 0.16);
+}
+
+.projects-link:hover .projects-overlay {
+    transform: translateY(-100%);
+}
+
+.projects-overlay {
+    position: absolute;
+    /* transform: translateY(0); */
+    height: 294px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: rgba(33, 150, 243, 0.9);;
+}
+
+.projects .txt-overlay {
+    flex-basis: 322px;
+    font-size: 18px;
+    line-height: 1.56;
+    color: var(--text-white);
 }
 
 .projects-title {
